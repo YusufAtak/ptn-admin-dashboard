@@ -1,0 +1,18 @@
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "piton-pass",
+          "configurations": {
+            "web": "1:359252449242:web:c5dcf1f919befb5862d2e3"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

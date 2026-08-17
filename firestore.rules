@@ -1,0 +1,189 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function hasUserDocument() {
+      return isSignedIn() &&
+          exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function currentUserRole() {
+      return get(
+        /databases/$(database)/documents/users/$(request.auth.uid)
+      ).data.get('role', 'none');
+    }
+
+    function isAdmin() {
+      return hasUserDocument() && currentUserRole() == 'admin';
+    }
+
+    function isValidator() {
+      return hasUserDocument() && currentUserRole() == 'validator';
+    }
+
+    function isValidRole(role) {
+      return role in ['passenger', 'validator', 'admin'];
+    }
+
+    function isValidUserType(userTypeId) {
+      return userTypeId is string && userTypeId in [
+        'QKGkuQo7ifAGU4mVn0bx',
+        '3mg1KVLvucJvCST6Uj8Y',
+        'VrkE28U4RtDA88R3wIw5'
+      ];
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isValidator() || isAdmin();
+      allow list: if isAdmin();
+
+      allow create: if isOwner(userId) &&
+          request.resource.data.get('role', 'passenger') == 'passenger' &&
+          isValidUserType(
+            request.resource.data.get(
+              'userType',
+              'QKGkuQo7ifAGU4mVn0bx'
+            )
+          );
+
+      allow update: if (
+        isOwner(userId) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'firstName',
+          'lastName',
+          'displayName',
+          'email',
+          'photoUrl',
+          'dateOfBirth',
+          'updatedAt'
+        ])
+      ) || (
+        isAdmin() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'role',
+          'userType',
+          'updatedAt'
+        ]) &&
+        isValidRole(request.resource.data.get('role', 'passenger')) &&
+        isValidUserType(
+          request.resource.data.get(
+            'userType',
+            'QKGkuQo7ifAGU4mVn0bx'
+          )
+        ) &&
+        (
+          !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['role']) ||
+          userId != request.auth.uid
+        )
+      );
+
+      allow delete: if false;
+    }
+
+    match /user_types/{userTypeId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    match /transactions/{transactionId} {
+      allow read: if isAdmin() || (
+        isSignedIn() && resource.data.userId == request.auth.uid
+      );
+
+      allow create: if (
+        isSignedIn() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.type in ['topUp', 'ticketPurchase']
+      ) || (
+        isValidator() &&
+        request.resource.data.type in ['spend', 'ticket_use']
+      );
+
+      allow update, delete: if false;
+    }
+
+    match /tickets/{ticketId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    match /pass_tickets/{ticketId} {
+      allow read: if isAdmin() || isValidator() || (
+        isSignedIn() && resource.data.userId == request.auth.uid
+      );
+
+      allow create: if isSignedIn() &&
+          request.resource.data.userId == request.auth.uid &&
+          request.resource.data.remainingRides >= 0 &&
+          request.resource.data.totalRides >=
+            request.resource.data.remainingRides;
+
+      allow update: if isValidator() &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'remainingRides',
+            'isActive'
+          ]) &&
+          resource.data.remainingRides > 0 &&
+          request.resource.data.remainingRides ==
+            resource.data.remainingRides - 1 &&
+          request.resource.data.totalRides == resource.data.totalRides &&
+          request.resource.data.userId == resource.data.userId &&
+          request.resource.data.pricePaid == resource.data.pricePaid &&
+          request.resource.data.isActive ==
+            (request.resource.data.remainingRides > 0);
+
+      allow delete: if false;
+    }
+
+    match /bus_lines/{lineId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    match /wallets/{walletId} {
+      allow read: if isOwner(walletId) || isValidator() || isAdmin();
+
+      allow create: if isOwner(walletId) &&
+          request.resource.data.userId == request.auth.uid &&
+          request.resource.data.balance is number &&
+          request.resource.data.balance >= 0;
+
+      allow update: if (
+        isOwner(walletId) &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['balance']) &&
+        request.resource.data.userId == resource.data.userId &&
+        request.resource.data.balance is number &&
+        request.resource.data.balance >= 0
+      ) || (
+        isValidator() &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['balance']) &&
+        request.resource.data.userId == resource.data.userId &&
+        request.resource.data.balance is number &&
+        request.resource.data.balance >= 0 &&
+        request.resource.data.balance < resource.data.balance
+      );
+
+      allow delete: if false;
+    }
+
+    match /metrics/{metricId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
