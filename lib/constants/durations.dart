@@ -1,13 +1,14 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// ignore_for_file: constant_identifier_names
 
-const timeoutDuration = Duration(seconds: 20);
-const validationVibrationDelay = Duration(milliseconds: 100);
-const validationCooldownDuration = Duration(seconds: 3);
+const TIMEOUT_DURATION = Duration(seconds: 20);
+const VALIDATION_VIBRATION_DELAY = Duration(milliseconds: 100);
+const VALIDATION_COOLDOWN_DURATION = Duration(seconds: 3);
 
 final kDefaultDate = DateTime(2000);
 final kMinDate = DateTime(1900);
 const int kQrRefreshSeconds = 60;
+const MIDNIGHT_REFRESH_DELAY = Duration(seconds: 1);
 
-final kAppBarHeight = 62.h;
+const double kAppBarHeight = 62.0;
 
-final kBottomBarHeight = 72.h;
+const double kBottomBarHeight = 72.0;

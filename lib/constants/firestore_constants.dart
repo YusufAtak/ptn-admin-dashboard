@@ -1,66 +1,72 @@
-class FirestorePaths {
-  const FirestorePaths._();
+// ignore_for_file: constant_identifier_names
 
-  static const String users = 'users';
-  static const String cards = 'cards';
-  static const String tickets = 'tickets';
-  static const String passTickets = 'pass_tickets';
-  static const String metrics = 'metrics';
-  static const String wallets = 'wallets';
-  static const String transactions = 'transactions';
-  static const String busLines = 'bus_lines';
-  static const String userTypes = 'user_types';
+// --- FIRESTORE PATHS ---
+const String PATH_USERS = 'users';
+const String PATH_CARDS = 'cards';
+const String PATH_TICKETS = 'tickets';
+const String PATH_PASS_TICKETS = 'pass_tickets';
+const String PATH_METRICS = 'metrics';
+const String PATH_WALLETS = 'wallets';
+const String PATH_TRANSACTIONS = 'transactions';
+const String PATH_BUS_LINES = 'bus_lines';
+const String PATH_USER_TYPES = 'user_types';
 
-  static String userDoc(String userId) => '$users/$userId';
-  static String cardDoc(String cardId) => '$cards/$cardId';
-  static String ticketDoc(String ticketId) => '$tickets/$ticketId';
-  static String passTicketDoc(String ticketId) => '$passTickets/$ticketId';
-  static String walletDoc(String userId) => '$wallets/$userId';
-  static String transactionDoc(String transactionId) =>
-      '$transactions/$transactionId';
-}
+String userDocPath(String userId) => '$PATH_USERS/$userId';
+String cardDocPath(String cardId) => '$PATH_CARDS/$cardId';
+String ticketDocPath(String ticketId) => '$PATH_TICKETS/$ticketId';
+String passTicketDocPath(String ticketId) => '$PATH_PASS_TICKETS/$ticketId';
+String walletDocPath(String userId) => '$PATH_WALLETS/$userId';
+String transactionDocPath(String transactionId) =>
+    '$PATH_TRANSACTIONS/$transactionId';
 
-class FirestoreFields {
-  const FirestoreFields._();
+// --- FIRESTORE FIELDS ---
+const String FIELD_DOCUMENT_ID = 'id';
+const String FIELD_DISPLAY_NAME = 'displayName';
+const String FIELD_FIRST_NAME = 'firstName';
+const String FIELD_LAST_NAME = 'lastName';
+const String FIELD_EMAIL = 'email';
+const String FIELD_ROLE = 'role';
+const String FIELD_USER_TYPE = 'userType';
+const String FIELD_PHOTO_URL = 'photoUrl';
+const String FIELD_DATE_OF_BIRTH = 'dateOfBirth';
+const String FIELD_CREATED_AT = 'createdAt';
+const String FIELD_UPDATED_AT = 'updatedAt';
+const String FIELD_OWNER_ID = 'ownerId';
+const String FIELD_BALANCE = 'balance';
+const String FIELD_CARD_ID = 'cardId';
+const String FIELD_AMOUNT = 'amount';
+const String FIELD_STATUS = 'status';
+const String FIELD_VALIDATOR_ID = 'validatorId';
+const String FIELD_ISSUED_AT = 'issuedAt';
+const String FIELD_EXPIRES_AT = 'expiresAt';
+const String FIELD_VALIDATED_AT = 'validatedAt';
+const String FIELD_USER_ID = 'userId';
+const String FIELD_IS_ACTIVE = 'isActive';
+const String FIELD_REMAINING_RIDES = 'remainingRides';
+const String FIELD_TIMESTAMP = 'timestamp';
+const String FIELD_TYPE = 'type';
+const String FIELD_NAME = 'name';
 
-  // User fields
-  static const String displayName = 'displayName';
-  static const String firstName = 'firstName';
-  static const String lastName = 'lastName';
-  static const String email = 'email';
-  static const String role = 'role';
-  static const String userType = 'userType';
-  static const String createdAt = 'createdAt';
-  static const String updatedAt = 'updatedAt';
+// --- USER TYPES ---
+const String USER_TYPE_FULL = 'QKGkuQo7ifAGU4mVn0bx';
+const String USER_TYPE_STUDENT = '3mg1KVLvucJvCST6Uj8Y';
+const String USER_TYPE_ELDERLY = 'VrkE28U4RtDA88R3wIw5';
 
-  // Card fields
-  static const String ownerId = 'ownerId';
-  static const String balance = 'balance';
-  static const String userId = 'userId';
+const Map<String, String> USER_TYPE_FALLBACK_LABELS = {
+  USER_TYPE_FULL: 'Tam',
+  USER_TYPE_STUDENT: 'Öğrenci',
+  USER_TYPE_ELDERLY: 'Yaşlı',
+};
 
-  // Ticket fields
-  static const String cardId = 'cardId';
-  static const String amount = 'amount';
-  static const String status = 'status';
-  static const String validatorId = 'validatorId';
-  static const String issuedAt = 'issuedAt';
-  static const String expiresAt = 'expiresAt';
-  static const String validatedAt = 'validatedAt';
-  static const String timestamp = 'timestamp';
-  static const String type = 'type';
-  static const String name = 'name';
-}
+// --- USER ROLES ---
+const String USER_ROLE_ADMIN = 'admin';
+const String USER_ROLE_PASSENGER = 'passenger';
+const String USER_ROLE_VALIDATOR = 'validator';
 
-class UserTypeIds {
-  const UserTypeIds._();
-
-  static const String full = 'QKGkuQo7ifAGU4mVn0bx';
-  static const String student = '3mg1KVLvucJvCST6Uj8Y';
-  static const String elderly = 'VrkE28U4RtDA88R3wIw5';
-
-  static const Map<String, String> fallbackLabels = {
-    full: 'Tam',
-    student: 'Öğrenci',
-    elderly: 'Yaşlı',
-  };
-}
+// --- TRANSACTION TYPES ---
+const String TRANSACTION_TYPE_SPEND = 'spend';
+const String TRANSACTION_TYPE_TICKET_USE = 'ticket_use';
+const List<String> RIDE_TRANSACTION_TYPES = [
+  TRANSACTION_TYPE_SPEND,
+  TRANSACTION_TYPE_TICKET_USE,
+];

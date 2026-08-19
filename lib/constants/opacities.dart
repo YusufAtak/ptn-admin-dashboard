@@ -1,10 +1,12 @@
-abstract class AppOpacities {
-  // Yarı saydam arka planlar, kenarlıklar veya ikonlar için genel kullanım
-  static const double half = 0.5;
+// ignore_for_file: constant_identifier_names
 
-  static const double almostOpaque = 0.95;
-  static const double heavy = 0.9;
-  static const double quarter = 0.25;
-  static const double light = 0.2;
-  static const double shadow = 0.1;
-}
+// Yarı saydam arka planlar, kenarlıklar veya ikonlar için genel kullanım
+const double HALF = 0.5;
+
+const double ALMOST_OPAQUE = 0.95;
+const double HEAVY = 0.9;
+const double QUARTER = 0.25;
+const double LIGHT = 0.2;
+const double SHADOW = 0.1;
+const double CHART_AREA = 0.12;
+const double ICON_BACKGROUND = 0.1;

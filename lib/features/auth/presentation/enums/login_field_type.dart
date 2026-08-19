@@ -1,0 +1,1 @@
+enum LoginFieldType { email, password }

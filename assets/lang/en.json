@@ -1,0 +1,96 @@
+{
+  "app": {
+    "title": "PitonPass Admin Dashboard"
+  },
+  "common": {
+    "loading": "…",
+    "not_available": "—",
+    "retry": "Retry"
+  },
+  "language": {
+    "choose": "Choose language",
+    "turkish": "Turkish",
+    "english": "English"
+  },
+  "login": {
+    "title": "Admin Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login"
+  },
+  "auth": {
+    "required_fields": "Enter your email and password.",
+    "invalid_credentials": "The email or password is incorrect.",
+    "invalid_email": "Enter a valid email address.",
+    "user_disabled": "This user account has been disabled.",
+    "too_many_requests": "Too many failed attempts. Please try again later.",
+    "network_error": "Could not connect. Check your internet connection.",
+    "user_not_found": "No user record was found for this account.",
+    "not_an_admin": "This account cannot access the admin dashboard.",
+    "unauthorized": "You are not authorized to perform this operation.",
+    "login_failed": "Login failed. Please try again.",
+    "unknown_error": "An unexpected error occurred. Please try again."
+  },
+  "errors": {
+    "server_error": "An error occurred while contacting the server.",
+    "not_found": "The requested record was not found.",
+    "network": "Could not connect. Check your internet connection.",
+    "unknown": "An unexpected error occurred. Please try again."
+  },
+  "dashboard": {
+    "title": "Admin Dashboard",
+    "live": "Live",
+    "theme_toggle": "Toggle Theme",
+    "theme_dark": "Switch to Dark Theme",
+    "theme_light": "Switch to Light Theme",
+    "reconnect_streams": "Reconnect streams",
+    "logout": "Logout",
+    "last_seven_days": "Last 7 Days",
+    "recent_users": "Recently Registered Users (Max. 100)",
+    "total_users": "Total Users",
+    "today_rides": "Today's Rides",
+    "total_balance": "Total Balance",
+    "total_revenue": "Total Revenue",
+    "daily_rides": "Daily Rides",
+    "successful_rides": "Successful ride count",
+    "daily_revenue": "Daily Revenue",
+    "wallet_rides": "Rides paid from wallets",
+    "chart_error": "Chart data could not be loaded.",
+    "users_error": "Users could not be loaded.",
+    "anonymous_user": "Unnamed",
+    "currency_value": "₺{value}",
+    "permission_denied": "Firestore access was denied. Check the admin role and security rules.",
+    "missing_index": "The Firestore index required for this live query is not ready.",
+    "invalid_user_type": "An invalid user type was selected.",
+    "error_updating_user": "The user type could not be updated. Please try again.",
+    "error_fetching_balance": "The total balance could not be loaded.",
+    "error_fetching_revenue": "The total revenue could not be loaded.",
+    "error_fetching_rides": "Ride data could not be loaded.",
+    "error_fetching_users": "The user count could not be loaded.",
+    "error_fetching_user_list": "The user list or wallet balances could not be loaded.",
+    "error_fetching_user_types": "User type options could not be loaded.",
+    "error_parsing_data": "An error occurred while processing dashboard data.",
+    "unknown_error": "An error occurred while loading dashboard data.",
+    "columns": {
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "balance": "Balance",
+      "user_type": "Fare (User Type)"
+    }
+  },
+  "user_type": {
+    "full": "Full",
+    "student": "Student",
+    "elderly": "Elderly"
+  },
+  "weekday": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  }
+}

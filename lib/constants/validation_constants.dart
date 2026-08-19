@@ -1,24 +1,22 @@
-class ValidationConstants {
-  const ValidationConstants._();
+// ignore_for_file: constant_identifier_names
 
-  // QR Payload Keys
-  static const String keyType = 'type';
-  static const String keyUserId = 'userId';
-  static const String keyTicketId = 'ticketId';
-  
-  // Values
-  static const String valCard = 'card';
-  static const String valTicket = 'ticket';
-  static const String valStudent = 'student';
-  static const String valElderly = 'elderly';
-  
-  // Error Keys
-  static const String errInvalidQr = 'invalid_qr';
-  static const String errQrExpired = 'qr_expired';
-  static const String errUserNotFound = 'user_not_found';
-  static const String errInvalidType = 'invalid_type';
-  
-  // Audio Assets
-  static const String soundSuccess = 'sounds/success.mp3';
-  static const String soundError = 'sounds/error.mp3';
-}
+// QR Payload Keys
+const String KEY_TYPE = 'type';
+const String KEY_USER_ID = 'userId';
+const String KEY_TICKET_ID = 'ticketId';
+
+// Values
+const String VAL_CARD = 'card';
+const String VAL_TICKET = 'ticket';
+const String VAL_STUDENT = 'student';
+const String VAL_ELDERLY = 'elderly';
+
+// Error Keys
+const String ERR_INVALID_QR = 'invalid_qr';
+const String ERR_QR_EXPIRED = 'qr_expired';
+const String ERR_USER_NOT_FOUND = 'user_not_found';
+const String ERR_INVALID_TYPE = 'invalid_type';
+
+// Audio Assets
+const String SOUND_SUCCESS = 'sounds/success.mp3';
+const String SOUND_ERROR = 'sounds/error.mp3';

@@ -1,31 +1,28 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../data/repositories/auth_repository_impl.dart';
-import '../../data/repositories/dashboard_repository_impl.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../../domain/repositories/dashboard_repository.dart';
+import '../../features/auth/domain/usecases/check_admin_status_usecase.dart';
+import '../../features/auth/domain/usecases/login_admin_usecase.dart';
+import '../../features/auth/domain/usecases/logout_usecase.dart';
+import '../../features/dashboard/domain/usecases/update_user_type_usecase.dart';
+import '../../features/dashboard/domain/usecases/watch_dashboard_usecase.dart';
+import 'locator.dart';
 
-// Firebase instances
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  return FirebaseAuth.instance;
-});
+final checkAdminStatusUseCaseProvider = Provider<CheckAdminStatusUseCase>(
+  (ref) => getIt<CheckAdminStatusUseCase>(),
+);
 
-final firestoreProvider = Provider<FirebaseFirestore>((ref) {
-  return FirebaseFirestore.instance;
-});
+final loginAdminUseCaseProvider = Provider<LoginAdminUseCase>(
+  (ref) => getIt<LoginAdminUseCase>(),
+);
 
-// Repositories
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(
-    ref.watch(firebaseAuthProvider),
-    ref.watch(firestoreProvider),
-  );
-});
+final logoutUseCaseProvider = Provider<LogoutUseCase>(
+  (ref) => getIt<LogoutUseCase>(),
+);
 
-final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
-  return DashboardRepositoryImpl(
-    ref.watch(firestoreProvider),
-  );
-});
+final watchDashboardUseCaseProvider = Provider<WatchDashboardUseCase>(
+  (ref) => getIt<WatchDashboardUseCase>(),
+);
+
+final updateUserTypeUseCaseProvider = Provider<UpdateUserTypeUseCase>(
+  (ref) => getIt<UpdateUserTypeUseCase>(),
+);

@@ -1,104 +1,132 @@
-// ignore_for_file: avoid_classes_with_only_static_members
+// ignore_for_file: constant_identifier_names
 
 import 'dart:ui';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-const designSize = Size(390, 844);
+const DESIGN_SIZE = Size(390, 844);
 
-abstract class AppSizes {
-  // Fonts
-  static double get fontXs => 10.sp;
-  static double get fontSm => 12.sp;
-  static double get fontSmPlus => 13.sp;
-  static double get fontMd => 14.sp;
-  static double get fontLg => 16.sp;
-  static double get fontLgPlus => 18.sp;
-  static double get fontXl => 20.sp;
-  static double get fontXxl => 24.sp;
-  static double get fontXxlPlus => 26.sp;
-  static double get fontXxxl => 28.sp;
+// Breakpoints
+const double breakpointMobile = 600;
+const double breakpointChartWide = 900;
+const double breakpointDesktop = 1100;
 
-  // Letter Spacing
-  static double get letterSpacing1_2 => 1.2.w;
-  static double get letterSpacing1_5 => 1.5.w;
-  static double get letterSpacing2 => 2.w;
+// Admin dashboard responsive dimensions
+const double loginMaxWidth = 400;
+const double pagePadding = 24;
+const double cardPadding = 24;
+const double chartCardPadding = 20;
+const double contentGap = 16;
+const double sectionGap = 32;
+const double largeSectionGap = 40;
+const double smallGap = 4;
+const double compactGap = 8;
+const double mediumGap = 12;
+const double cardContentGap = 20;
+const double chartHeight = 240;
+const double loadingSectionHeight = 160;
+const double chartLoadingHeight = 320;
+const double cardRadius = 12;
+const double chartBarWidth = 18;
+const double chartLineWidth = 3;
+const double chartAxisReservedSize = 42;
+const double chartBottomReservedSize = 32;
+const double iconSmall = 12;
+const double iconButton = 24;
+const double iconLarge = 32;
+const double progressIndicatorSize = 20;
+const double progressStrokeWidth = 2;
 
-  // Paddings / Widths
-  static double get borderSm => 1.w;
-  static double get border1_5 => 1.5.w;
-  static double get strokeWidth2 => 2.w;
-  static double get strokeWidth2_5 => 2.5.w;
-  static double get p4 => 4.w;
-  static double get p8 => 8.w;
-  static double get p12 => 12.w;
-  static double get p14 => 14.w;
-  static double get p16 => 16.w;
-  static double get p20 => 20.w;
-  static double get p24 => 24.w;
+// Fonts
+const double fontXs = 10;
+const double fontSm = 12;
+const double fontSmPlus = 13;
+const double fontMd = 14;
+const double fontLg = 16;
+const double fontLgPlus = 18;
+const double fontXl = 20;
+const double fontXxl = 24;
+const double fontXxlPlus = 26;
+const double fontXxxl = 28;
 
-  // Widths
-  static double get w8 => 8.w;
-  static double get w12 => 12.w;
-  static double get w16 => 16.w;
+// Letter Spacing
+const double letterSpacing1_2 = 1.2;
+const double letterSpacing1_5 = 1.5;
+const double letterSpacing2 = 2.0;
 
-  // Heights
-  static double get h4 => 4.h;
-  static double get h6 => 6.h;
-  static double get h8 => 8.h;
-  static double get h10 => 10.h;
-  static double get h12 => 12.h;
-  static double get h14 => 14.h;
-  static double get h16 => 16.h;
-  static double get h20 => 20.h;
-  static double get h24 => 24.h;
-  static double get h28 => 28.h;
-  static double get h32 => 32.h;
-  static double get h36 => 36.h;
-  static double get h48 => 48.h;
+// Paddings / Widths
+const double borderSm = 1.0;
+const double border1_5 = 1.5;
+const double strokeWidth2 = 2.0;
+const double strokeWidth2_5 = 2.5;
+const double p4 = 4.0;
+const double p8 = 8.0;
+const double p12 = 12.0;
+const double p14 = 14.0;
+const double p16 = 16.0;
+const double p20 = 20.0;
+const double p24 = 24.0;
 
-  // Radius
-  static double get rSm => 4.r;
-  static double get r8 => 8.r;
-  static double get rMd => 8.r;
-  static double get r10 => 10.r;
-  static double get r12 => 12.r;
-  static double get r14 => 14.r;
-  static double get rLg => 16.r;
-  static double get r18 => 18.r;
-  static double get r20 => 20.r;
-  static double get r22 => 22.r;
-  static double get r24 => 24.r;
-  static double get rXl => 24.r;
-  static double get r32 => 32.r;
+// Widths
+const double w8 = 8.0;
+const double w12 = 12.0;
+const double w16 = 16.0;
 
-  // Icons / Avatars
-  static double get iconSm => 16.r;
-  static double get icon18 => 18.r;
-  static double get icon20 => 20.r;
-  static double get iconMd => 24.r;
-  static double get iconLg => 32.r;
-  static double get iconXl => 50.r;
-  static double get iconXxl => 56.r;
-  static double get icon64 => 64.r;
-  static double get icon80 => 80.r;
-  static double get icon84 => 84.r;
-  static double get icon90 => 90.r;
+// Heights
+const double h4 = 4.0;
+const double h6 = 6.0;
+const double h8 = 8.0;
+const double h10 = 10.0;
+const double h12 = 12.0;
+const double h14 = 14.0;
+const double h16 = 16.0;
+const double h20 = 20.0;
+const double h24 = 24.0;
+const double h28 = 28.0;
+const double h32 = 32.0;
+const double h36 = 36.0;
+const double h48 = 48.0;
 
-  // Shadows
-  static double get shadowBlurRadius => 10.r;
-  static double get shadowBlurRadius16 => 16.r;
-  static double get shadowOffset => 4.r;
+// Radius
+const double rSm = 4.0;
+const double r8 = 8.0;
+const double rMd = 8.0;
+const double r10 = 10.0;
+const double r12 = 12.0;
+const double r14 = 14.0;
+const double rLg = 16.0;
+const double r18 = 18.0;
+const double r20 = 20.0;
+const double r22 = 22.0;
+const double r24 = 24.0;
+const double rXl = 24.0;
+const double r32 = 32.0;
 
-  // QR Sizes
-  static double get qrCardSize => 80.r; // Sanal kart üzerindeki mini QR
-  static double get qrSmallSize => 140.r; // Bilet ekranı vb. için orta boy QR
-  static double get qrLargeSize => 280.r; // Doğrulama ekranı için büyük QR
+// Icons / Avatars
+const double iconSm = 16.0;
+const double icon18 = 18.0;
+const double icon20 = 20.0;
+const double iconMd = 24.0;
+const double iconLg = 32.0;
+const double iconXl = 50.0;
+const double iconXxl = 56.0;
+const double icon64 = 64.0;
+const double icon80 = 80.0;
+const double icon84 = 84.0;
+const double icon90 = 90.0;
 
-  //Cards
-  static double get cardHeight => 220.h;
+// Shadows
+const double shadowBlurRadius = 10.0;
+const double shadowBlurRadius16 = 16.0;
+const double shadowOffset = 4.0;
 
-  // Line Heights
-  static const double lineHeightCompact = 1.2;
-  static const double lineHeightNormal = 1.3;
-  static const double lineHeightRelaxed = 1.5;
-}
+// QR Sizes
+const double qrCardSize = 80.0;
+const double qrSmallSize = 140.0;
+const double qrLargeSize = 280.0;
+
+// Cards
+const double cardHeight = 220.0;
+
+// Line Heights
+const double lineHeightCompact = 1.2;
+const double lineHeightNormal = 1.3;
+const double lineHeightRelaxed = 1.5;

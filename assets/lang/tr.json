@@ -1,0 +1,96 @@
+{
+  "app": {
+    "title": "PitonPass Yönetim Paneli"
+  },
+  "common": {
+    "loading": "…",
+    "not_available": "—",
+    "retry": "Tekrar Dene"
+  },
+  "language": {
+    "choose": "Dil seçin",
+    "turkish": "Türkçe",
+    "english": "İngilizce"
+  },
+  "login": {
+    "title": "Admin Girişi",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Giriş Yap"
+  },
+  "auth": {
+    "required_fields": "E-posta ve şifre alanlarını doldurun.",
+    "invalid_credentials": "E-posta veya şifre hatalı.",
+    "invalid_email": "Geçerli bir e-posta adresi girin.",
+    "user_disabled": "Bu kullanıcı hesabı devre dışı bırakılmış.",
+    "too_many_requests": "Çok fazla başarısız deneme yapıldı. Lütfen daha sonra tekrar deneyin.",
+    "network_error": "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin.",
+    "user_not_found": "Bu hesaba ait kullanıcı kaydı bulunamadı.",
+    "not_an_admin": "Bu hesabın admin paneline erişim yetkisi yok.",
+    "unauthorized": "Bu işlem için yetkiniz bulunmuyor.",
+    "login_failed": "Giriş yapılamadı. Lütfen tekrar deneyin.",
+    "unknown_error": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+  },
+  "errors": {
+    "server_error": "Sunucuya erişilirken bir hata oluştu.",
+    "not_found": "İstenen kayıt bulunamadı.",
+    "network": "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin.",
+    "unknown": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+  },
+  "dashboard": {
+    "title": "Admin Paneli",
+    "live": "Canlı",
+    "theme_toggle": "Temayı Değiştir",
+    "theme_dark": "Koyu Temaya Geç",
+    "theme_light": "Açık Temaya Geç",
+    "reconnect_streams": "Akışları yeniden bağla",
+    "logout": "Çıkış Yap",
+    "last_seven_days": "Son 7 Gün",
+    "recent_users": "Son Kayıt Olan Kullanıcılar (Maks. 100)",
+    "total_users": "Toplam Kullanıcı",
+    "today_rides": "Bugünkü Biniş",
+    "total_balance": "Toplam Bakiye",
+    "total_revenue": "Toplam Ciro",
+    "daily_rides": "Günlük Binişler",
+    "successful_rides": "Başarılı biniş adedi",
+    "daily_revenue": "Günlük Ciro",
+    "wallet_rides": "Cüzdan ile yapılan binişler",
+    "chart_error": "Grafik verileri alınamadı.",
+    "users_error": "Kullanıcılar alınamadı.",
+    "anonymous_user": "İsimsiz",
+    "currency_value": "₺{value}",
+    "permission_denied": "Firestore erişimi reddedildi. Admin rolünü ve kuralları kontrol edin.",
+    "missing_index": "Bu canlı sorgu için gerekli Firestore indeksi hazır değil.",
+    "invalid_user_type": "Geçersiz kullanıcı tipi seçildi.",
+    "error_updating_user": "Kullanıcı tipi güncellenemedi. Lütfen tekrar deneyin.",
+    "error_fetching_balance": "Toplam bakiye alınamadı.",
+    "error_fetching_revenue": "Toplam ciro alınamadı.",
+    "error_fetching_rides": "Biniş verileri alınamadı.",
+    "error_fetching_users": "Kullanıcı sayısı alınamadı.",
+    "error_fetching_user_list": "Kullanıcı listesi veya cüzdan bakiyeleri alınamadı.",
+    "error_fetching_user_types": "Kullanıcı tipi seçenekleri alınamadı.",
+    "error_parsing_data": "Dashboard verileri işlenirken bir hata oluştu.",
+    "unknown_error": "Dashboard verileri alınırken bir hata oluştu.",
+    "columns": {
+      "id": "ID",
+      "name": "İsim",
+      "email": "E-posta",
+      "balance": "Bakiye",
+      "user_type": "Tarife (Kullanıcı Tipi)"
+    }
+  },
+  "user_type": {
+    "full": "Tam",
+    "student": "Öğrenci",
+    "elderly": "Yaşlı"
+  },
+  "weekday": {
+    "monday": "Pzt",
+    "tuesday": "Sal",
+    "wednesday": "Çar",
+    "thursday": "Per",
+    "friday": "Cum",
+    "saturday": "Cmt",
+    "sunday": "Paz"
+  }
+}

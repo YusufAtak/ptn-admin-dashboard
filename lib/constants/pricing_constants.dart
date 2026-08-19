@@ -1,7 +1,5 @@
-class PricingConstants {
-  const PricingConstants._();
+// ignore_for_file: constant_identifier_names
 
-  // Bilet fiyatlandırmaları
-  static const double twoRidesTicketPrice = 35.0;
-  static const double threeRidesTicketPrice = 50.0;
-}
+// Bilet fiyatlandırmaları
+const double TWO_RIDES_TICKET_PRICE = 35.0;
+const double THREE_RIDES_TICKET_PRICE = 50.0;

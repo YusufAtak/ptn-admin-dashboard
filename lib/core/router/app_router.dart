@@ -1,42 +1,44 @@
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../presentation/pages/dashboard_page.dart';
-import '../../presentation/pages/login_page.dart';
-import '../../presentation/providers/auth_provider.dart';
+import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/providers/auth_provider.dart';
+import '../../features/auth/presentation/providers/auth_state.dart';
+import '../../features/dashboard/presentation/pages/dashboard_page.dart';
+import 'app_route.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
 
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: AppRoute.login.path,
     redirect: (context, state) {
-      final isAuth = authState.status == AuthStatus.authenticated;
-      final isLoginRoute = state.uri.path == '/login';
+      final isAuthenticated = authState is AuthAuthenticated;
+      final isLoginRoute = state.uri.path == AppRoute.login.path;
 
-      // Still checking status, don't redirect yet
-      if (authState.status == AuthStatus.authenticating || 
-          authState.status == AuthStatus.initial) {
+      if (authState is AuthInitial || authState is AuthLoading) {
         return null;
       }
 
-      if (!isAuth && !isLoginRoute) {
-        return '/login';
+      if (!isAuthenticated && !isLoginRoute) {
+        return AppRoute.login.path;
       }
 
-      if (isAuth && isLoginRoute) {
-        return '/dashboard';
+      if (isAuthenticated && isLoginRoute) {
+        return AppRoute.dashboard.path;
       }
 
       return null;
     },
     routes: [
       GoRoute(
-        path: '/login',
+        name: AppRoute.login.name,
+        path: AppRoute.login.path,
         builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
-        path: '/dashboard',
+        name: AppRoute.dashboard.name,
+        path: AppRoute.dashboard.path,
         builder: (context, state) => const DashboardPage(),
       ),
     ],

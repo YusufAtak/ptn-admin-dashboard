@@ -31,3 +31,8 @@ const Color PRIMARY_DARK = Color(0xFF0369A1);
 const Color VALIDATOR_ACCENT = Color(0xFF34D399);
 const Color VALIDATOR_GRAD_1 = Color(0xFF059669);
 const Color VALIDATOR_GRAD_2 = Color(0xFF047857);
+
+// Admin dashboard semantic colors
+const Color DASHBOARD_SUCCESS = Color(0xFF2E7D32);
+const Color DASHBOARD_REVENUE = Color(0xFFF57C00);
+const Color DASHBOARD_BALANCE = Color(0xFF7B1FA2);
