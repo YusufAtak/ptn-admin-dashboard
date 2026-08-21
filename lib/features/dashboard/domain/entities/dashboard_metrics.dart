@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../enums/dashboard_date_range.dart';
+
 part 'dashboard_metrics.freezed.dart';
 
 @freezed
@@ -17,4 +19,13 @@ abstract class DashboardWeeklyMetrics with _$DashboardWeeklyMetrics {
     @Default(0) int todayRideCount,
     @Default(<DashboardDailyMetric>[]) List<DashboardDailyMetric> days,
   }) = _DashboardWeeklyMetrics;
+}
+
+extension DashboardWeeklyMetricsExtension on DashboardWeeklyMetrics {
+  List<DashboardDailyMetric> daysForRange(DashboardDateRange range) {
+    if (days.length <= range.dayCount) {
+      return days;
+    }
+    return days.sublist(days.length - range.dayCount);
+  }
 }

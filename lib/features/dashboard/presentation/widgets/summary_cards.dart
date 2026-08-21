@@ -28,8 +28,7 @@ class SummaryCards extends StatelessWidget {
             : DASHBOARD_MOBILE_COLUMN_COUNT;
         final cardWidth =
             (constraints.maxWidth -
-                ((columns - DASHBOARD_MOBILE_COLUMN_COUNT) *
-                    contentGap)) /
+                ((columns - DASHBOARD_MOBILE_COLUMN_COUNT) * contentGap)) /
             columns;
 
         return Wrap(

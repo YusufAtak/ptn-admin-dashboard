@@ -178,13 +178,14 @@ class DashboardRepositoryImpl implements DashboardRepository {
     final balances = {
       for (final wallet in walletModels) wallet.id: wallet.balance,
     };
-    final userModels = users
-        .map(AdminUserModel.fromJson)
-        .where((user) => user.role == USER_ROLE_PASSENGER)
-        .toList(growable: false)
-      ..sort(
-        (first, second) => second.createdAt.compareTo(first.createdAt),
-      );
+    final userModels =
+        users
+            .map(AdminUserModel.fromJson)
+            .where((user) => user.role == USER_ROLE_PASSENGER)
+            .toList(growable: false)
+          ..sort(
+            (first, second) => second.createdAt.compareTo(first.createdAt),
+          );
     final userSummaries = userModels
         .take(DASHBOARD_RECENT_USER_LIMIT)
         .map((user) => user.toDomain(balance: balances[user.id] ?? 0))
@@ -225,7 +226,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
     DateTime firstDay,
   ) {
     final days = List.generate(
-      DASHBOARD_VISIBLE_DAY_COUNT,
+      DASHBOARD_MAX_DAY_COUNT,
       (index) =>
           DashboardDailyMetric(date: firstDay.add(Duration(days: index))),
     );

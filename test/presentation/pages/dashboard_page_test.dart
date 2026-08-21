@@ -104,38 +104,51 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('renders, changes language, toggles theme, and responds to mobile width', (
-    tester,
-  ) async {
-    await pumpDashboard(tester, const Size(1440, 1000));
+  testWidgets(
+    'renders, changes language, toggles theme, and responds to mobile width',
+    (tester) async {
+      await pumpDashboard(tester, const Size(1440, 1000));
 
-    expect(find.text('Toplam Kullanıcı'), findsOneWidget);
-    expect(find.text('Bugünkü Biniş'), findsOneWidget);
-    expect(find.text('Günlük Binişler'), findsOneWidget);
-    expect(find.byType(Image), findsWidgets);
+      expect(find.text('Toplam Kullanıcı'), findsOneWidget);
+      expect(find.text('Bugünkü Biniş'), findsOneWidget);
+      expect(find.text('Günlük Binişler'), findsOneWidget);
+      expect(find.text('Son 7 Gün'), findsWidgets);
+      expect(find.text('Son 14 Gün'), findsOneWidget);
+      expect(find.text('Son 1 Ay'), findsOneWidget);
+      expect(find.byType(Image), findsWidgets);
 
-    // Theme toggle test
-    expect(find.byIcon(Icons.light_mode_outlined), findsOneWidget);
-    await tester.tap(find.byIcon(Icons.light_mode_outlined));
-    await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.dark_mode_outlined), findsOneWidget);
+      // Date range toggle test
+      await tester.tap(find.text('Son 14 Gün'));
+      await tester.pumpAndSettle();
+      expect(find.text('Son 14 Gün'), findsWidgets);
 
-    await tester.tap(find.byIcon(Icons.language));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(CheckedPopupMenuItem<Locale>).last);
-    await tester.runAsync(
-      () => Future<void>.delayed(const Duration(milliseconds: 100)),
-    );
-    await tester.pump(const Duration(seconds: 1));
-    await tester.pumpAndSettle();
-    expect(find.text('Total Users'), findsOneWidget);
+      await tester.tap(find.text('Son 1 Ay'));
+      await tester.pumpAndSettle();
+      expect(find.text('Son 1 Ay'), findsWidgets);
 
-    tester.view.physicalSize = const Size(390, 844);
-    await tester.pumpAndSettle();
-    expect(find.byTooltip('Live'), findsOneWidget);
-    expect(find.byType(DropdownButton<String>), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+      // Theme toggle test
+      expect(find.byIcon(Icons.light_mode_outlined), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.light_mode_outlined));
+      await tester.pumpAndSettle();
+      expect(find.byIcon(Icons.dark_mode_outlined), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.language));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(CheckedPopupMenuItem<Locale>).last);
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 100)),
+      );
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Total Users'), findsOneWidget);
+
+      tester.view.physicalSize = const Size(390, 844);
+      await tester.pumpAndSettle();
+      expect(find.byTooltip('Live'), findsOneWidget);
+      expect(find.byType(DropdownButton<String>), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }
 
 class _FakeAuthNotifier extends AuthNotifier {

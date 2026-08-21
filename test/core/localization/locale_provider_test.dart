@@ -1,4 +1,4 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,7 +22,9 @@ void main() {
     expect(locale, TR_LOCALE);
   });
 
-  testWidgets('updates state and delegates to EasyLocalization setLocale', (tester) async {
+  testWidgets('updates state and delegates to EasyLocalization setLocale', (
+    tester,
+  ) async {
     late BuildContext savedContext;
     late WidgetRef savedRef;
 
@@ -49,7 +51,9 @@ void main() {
 
     expect(savedRef.read(localeProvider), TR_LOCALE);
 
-    await savedRef.read(localeProvider.notifier).setLocale(savedContext, EN_LOCALE);
+    await savedRef
+        .read(localeProvider.notifier)
+        .setLocale(savedContext, EN_LOCALE);
     await tester.pumpAndSettle();
 
     expect(savedRef.read(localeProvider), EN_LOCALE);
@@ -61,6 +65,8 @@ class _TestJsonAssetLoader extends AssetLoader {
 
   @override
   Future<Map<String, dynamic>?> load(String path, Locale locale) async {
-    return {'dashboard': {'title': 'Dashboard'}};
+    return {
+      'dashboard': {'title': 'Dashboard'},
+    };
   }
 }

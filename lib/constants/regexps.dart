@@ -21,8 +21,9 @@ final alphanumericRegexp = RegExp(r'^[a-zA-Z0-9]+$');
 final turkishCharactersRegexp = RegExp('[ığüşöçİĞÜŞÖÇ]');
 
 //input must contains at least one uppercase, at least one lowercase and at least one special character
-final RegExp passwordRegExp =
-    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~\=\-\_\%\+\.\,]).{8,}$');
+final RegExp passwordRegExp = RegExp(
+  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~\=\-\_\%\+\.\,]).{8,}$',
+);
 
 final RegExp nonDigitsRegExp = RegExp(r'\D+');
 

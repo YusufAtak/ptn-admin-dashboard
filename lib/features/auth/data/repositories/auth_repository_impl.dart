@@ -60,10 +60,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   Future<Either<Failure, void>> _verifyAdmin(String userId) async {
     try {
-      final document = await _firestoreService.getDocument(
-        PATH_USERS,
-        userId,
-      );
+      final document = await _firestoreService.getDocument(PATH_USERS, userId);
       if (document == null) {
         return left(const Failure.notFound(messageKey: 'auth.user_not_found'));
       }

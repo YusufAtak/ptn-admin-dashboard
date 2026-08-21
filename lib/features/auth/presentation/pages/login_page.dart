@@ -33,9 +33,7 @@ class LoginPage extends HookConsumerWidget {
         children: [
           Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: loginMaxWidth,
-              ),
+              constraints: const BoxConstraints(maxWidth: loginMaxWidth),
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(pagePadding),
@@ -63,9 +61,7 @@ class LoginPage extends HookConsumerWidget {
                         const SizedBox(height: sectionGap),
                         if (messageKey != null)
                           Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: contentGap,
-                            ),
+                            padding: const EdgeInsets.only(bottom: contentGap),
                             child: Text(
                               messageKey.tr(),
                               style: bodyMedium.copyWith(color: RED),
@@ -118,10 +114,7 @@ class LoginPage extends HookConsumerWidget {
             right: pagePadding,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                ThemeSwitchButton(),
-                LanguageSwitchButton(),
-              ],
+              children: [ThemeSwitchButton(), LanguageSwitchButton()],
             ),
           ),
         ],

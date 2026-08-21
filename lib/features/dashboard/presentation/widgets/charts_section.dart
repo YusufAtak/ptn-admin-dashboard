@@ -10,9 +10,9 @@ import '../../domain/entities/dashboard_metrics.dart';
 import '../formatters/dashboard_formatters.dart';
 
 class ChartsSection extends StatelessWidget {
-  final DashboardWeeklyMetrics metrics;
+  final List<DashboardDailyMetric> days;
 
-  const ChartsSection({required this.metrics, super.key});
+  const ChartsSection({required this.days, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +32,13 @@ class ChartsSection extends StatelessWidget {
               width: chartWidth,
               titleKey: 'dashboard.daily_rides',
               subtitleKey: 'dashboard.successful_rides',
-              child: _RideBarChart(days: metrics.days),
+              child: _RideBarChart(days: days),
             ),
             _ChartCard(
               width: chartWidth,
               titleKey: 'dashboard.daily_revenue',
               subtitleKey: 'dashboard.wallet_rides',
-              child: _RevenueLineChart(days: metrics.days),
+              child: _RevenueLineChart(days: days),
             ),
           ],
         );
@@ -96,6 +96,12 @@ class _RideBarChart extends StatelessWidget {
     final dashboardColors =
         theme.extension<DashboardThemeColors>() ?? DashboardThemeColors.light;
 
+    final barWidth = switch (days.length) {
+      <= 7 => chartBarWidth,
+      <= 14 => chartBarWidthMedium,
+      _ => chartBarWidthSmall,
+    };
+
     return BarChart(
       BarChartData(
         alignment: BarChartAlignment.spaceAround,
@@ -139,7 +145,7 @@ class _RideBarChart extends StatelessWidget {
               barRods: [
                 BarChartRodData(
                   toY: days[index].rideCount.toDouble(),
-                  width: chartBarWidth,
+                  width: barWidth,
                   color: dashboardColors.success,
                   borderRadius: BorderRadius.circular(smallGap),
                 ),
@@ -208,12 +214,10 @@ class _RevenueLineChart extends StatelessWidget {
             isCurved: true,
             barWidth: chartLineWidth,
             color: dashboardColors.revenue,
-            dotData: const FlDotData(show: true),
+            dotData: FlDotData(show: days.length <= 14),
             belowBarData: BarAreaData(
               show: true,
-              color: dashboardColors.revenue.withValues(
-                alpha: CHART_AREA,
-              ),
+              color: dashboardColors.revenue.withValues(alpha: CHART_AREA),
             ),
           ),
         ],
@@ -222,43 +226,72 @@ class _RevenueLineChart extends StatelessWidget {
   }
 }
 
-FlTitlesData _chartTitles(List<DashboardDailyMetric> days, ThemeData theme) =>
-    FlTitlesData(
-      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      leftTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: chartAxisReservedSize,
-          getTitlesWidget: (value, meta) => SideTitleWidget(
+FlTitlesData _chartTitles(
+  List<DashboardDailyMetric> days,
+  ThemeData theme,
+) => FlTitlesData(
+  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+  leftTitles: AxisTitles(
+    sideTitles: SideTitles(
+      showTitles: true,
+      reservedSize: chartAxisReservedSize,
+      getTitlesWidget: (value, meta) => SideTitleWidget(
+        meta: meta,
+        child: Text(
+          value.toInt().toString(),
+          style: theme.textTheme.labelSmall,
+        ),
+      ),
+    ),
+  ),
+  bottomTitles: AxisTitles(
+    sideTitles: SideTitles(
+      showTitles: true,
+      reservedSize: chartBottomReservedSize,
+      getTitlesWidget: (value, meta) {
+        final index = value.toInt();
+        if (index < 0 || index >= days.length || value != index) {
+          return const SizedBox.shrink();
+        }
+        if (days.length <= 7) {
+          return SideTitleWidget(
             meta: meta,
             child: Text(
-              value.toInt().toString(),
+              _weekdayLabelKey(days[index].date.weekday).tr(),
               style: theme.textTheme.labelSmall,
             ),
+          );
+        }
+        if (days.length <= 14) {
+          if (index % 2 != 0 && index != days.length - 1) {
+            return const SizedBox.shrink();
+          }
+          return SideTitleWidget(
+            meta: meta,
+            child: Text(
+              '${days[index].date.day} ${_monthLabelKey(days[index].date.month).tr()}',
+              style: theme.textTheme.labelSmall,
+            ),
+          );
+        }
+        // 30 days
+        if (index % 5 != 0 && index != days.length - 1) {
+          return const SizedBox.shrink();
+        }
+        return SideTitleWidget(
+          meta: meta,
+          child: Text(
+            '${days[index].date.day} ${_monthLabelKey(days[index].date.month).tr()}',
+            style: theme.textTheme.labelSmall,
           ),
-        ),
-      ),
-      bottomTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: chartBottomReservedSize,
-          getTitlesWidget: (value, meta) {
-            final index = value.toInt();
-            if (index < 0 || index >= days.length || value != index) {
-              return const SizedBox.shrink();
-            }
-            return SideTitleWidget(
-              meta: meta,
-              child: Text(
-                _weekdayLabelKey(days[index].date.weekday).tr(),
-                style: theme.textTheme.labelSmall,
-              ),
-            );
-          },
-        ),
-      ),
-    );
+        );
+      },
+    ),
+  ),
+);
 
 String _weekdayLabelKey(int weekday) =>
     WEEKDAY_LOCALIZATION_KEYS[weekday - DateTime.monday];
+
+String _monthLabelKey(int month) => MONTH_LOCALIZATION_KEYS[month - 1];

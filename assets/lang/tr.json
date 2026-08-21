@@ -46,6 +46,8 @@
     "reconnect_streams": "Akışları yeniden bağla",
     "logout": "Çıkış Yap",
     "last_seven_days": "Son 7 Gün",
+    "last_fourteen_days": "Son 14 Gün",
+    "last_thirty_days": "Son 1 Ay",
     "recent_users": "Son Kayıt Olan Kullanıcılar (Maks. 100)",
     "total_users": "Toplam Kullanıcı",
     "today_rides": "Bugünkü Biniş",
@@ -92,5 +94,19 @@
     "friday": "Cum",
     "saturday": "Cmt",
     "sunday": "Paz"
+  },
+  "month": {
+    "jan": "Oca",
+    "feb": "Şub",
+    "mar": "Mar",
+    "apr": "Nis",
+    "may": "May",
+    "jun": "Haz",
+    "jul": "Tem",
+    "aug": "Ağu",
+    "sep": "Eyl",
+    "oct": "Eki",
+    "nov": "Kas",
+    "dec": "Ara"
   }
 }

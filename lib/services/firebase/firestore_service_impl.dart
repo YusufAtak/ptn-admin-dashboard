@@ -50,13 +50,10 @@ class FirestoreServiceImpl implements FirestoreService {
       }
 
       return query.snapshots().map(
-            (snapshot) => snapshot.docs
-                .map(
-                  (document) =>
-                      _normalizeDocument(document.id, document.data()),
-                )
-                .toList(growable: false),
-          );
+        (snapshot) => snapshot.docs
+            .map((document) => _normalizeDocument(document.id, document.data()))
+            .toList(growable: false),
+      );
     } on FirebaseException catch (error) {
       throw FirestoreServiceException(error.code, message: error.message);
     }

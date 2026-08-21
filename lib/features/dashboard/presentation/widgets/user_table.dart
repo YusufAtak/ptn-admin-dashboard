@@ -69,8 +69,7 @@ class UserTable extends StatelessWidget {
     );
   }
 
-  String _shortId(String id) =>
-      id.length <= DASHBOARD_SHORTENED_ID_LENGTH
+  String _shortId(String id) => id.length <= DASHBOARD_SHORTENED_ID_LENGTH
       ? id
       : '${id.substring(0, DASHBOARD_SHORTENED_ID_LENGTH)}'
             '$DASHBOARD_SHORTENED_ID_SUFFIX';

@@ -22,14 +22,11 @@ void main() {
     firestoreService = _MockFirestoreService();
     repository = DashboardRepositoryImpl(firestoreService);
     controllers = {
-      PATH_USERS:
-          StreamController<List<Map<String, dynamic>>>.broadcast(),
-      PATH_WALLETS:
-          StreamController<List<Map<String, dynamic>>>.broadcast(),
+      PATH_USERS: StreamController<List<Map<String, dynamic>>>.broadcast(),
+      PATH_WALLETS: StreamController<List<Map<String, dynamic>>>.broadcast(),
       PATH_TRANSACTIONS:
           StreamController<List<Map<String, dynamic>>>.broadcast(),
-      PATH_USER_TYPES:
-          StreamController<List<Map<String, dynamic>>>.broadcast(),
+      PATH_USER_TYPES: StreamController<List<Map<String, dynamic>>>.broadcast(),
     };
     when(
       () => firestoreService.watchCollection(

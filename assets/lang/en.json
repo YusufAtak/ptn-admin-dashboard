@@ -46,6 +46,8 @@
     "reconnect_streams": "Reconnect streams",
     "logout": "Logout",
     "last_seven_days": "Last 7 Days",
+    "last_fourteen_days": "Last 14 Days",
+    "last_thirty_days": "Last 1 Month",
     "recent_users": "Recently Registered Users (Max. 100)",
     "total_users": "Total Users",
     "today_rides": "Today's Rides",
@@ -92,5 +94,19 @@
     "friday": "Fri",
     "saturday": "Sat",
     "sunday": "Sun"
+  },
+  "month": {
+    "jan": "Jan",
+    "feb": "Feb",
+    "mar": "Mar",
+    "apr": "Apr",
+    "may": "May",
+    "jun": "Jun",
+    "jul": "Jul",
+    "aug": "Aug",
+    "sep": "Sep",
+    "oct": "Oct",
+    "nov": "Nov",
+    "dec": "Dec"
   }
 }

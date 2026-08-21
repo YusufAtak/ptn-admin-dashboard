@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../constants/sizes.dart';
@@ -8,6 +9,8 @@ import '../../../../core/presentation/widgets/theme_switch_button.dart';
 import '../../../../core/theme/dashboard_theme_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../domain/entities/dashboard_metrics.dart';
+import '../../domain/enums/dashboard_date_range.dart';
 import '../providers/dashboard_provider.dart';
 import '../providers/dashboard_state.dart';
 import '../widgets/charts_section.dart';
@@ -15,7 +18,7 @@ import '../widgets/dashboard_error_banner.dart';
 import '../widgets/summary_cards.dart';
 import '../widgets/user_table.dart';
 
-class DashboardPage extends ConsumerWidget {
+class DashboardPage extends HookConsumerWidget {
   const DashboardPage({super.key});
 
   @override
@@ -24,6 +27,7 @@ class DashboardPage extends ConsumerWidget {
     final dashboardColors =
         theme.extension<DashboardThemeColors>() ?? DashboardThemeColors.light;
     final dashboardState = ref.watch(dashboardProvider);
+    final selectedRange = useState(DashboardDateRange.last7Days);
 
     ref.listen<DashboardState>(dashboardProvider, (previous, next) {
       final messageKey = switch (next) {
@@ -68,9 +72,7 @@ class DashboardPage extends ConsumerWidget {
         actions: [
           if (!isCompact)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: compactGap,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: compactGap),
               child: Chip(
                 avatar: Icon(
                   Icons.circle,
@@ -82,9 +84,7 @@ class DashboardPage extends ConsumerWidget {
             )
           else
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: compactGap,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: compactGap),
               child: Tooltip(
                 message: 'dashboard.live'.tr(),
                 child: Icon(
@@ -121,12 +121,61 @@ class DashboardPage extends ConsumerWidget {
               children: [
                 SummaryCards(snapshot: snapshot),
                 const SizedBox(height: sectionGap),
-                Text(
-                  'dashboard.last_seven_days'.tr(),
-                  style: theme.textTheme.headlineLarge,
-                ),
+                if (isCompact) ...[
+                  Text(
+                    selectedRange.value.labelKey.tr(),
+                    style: theme.textTheme.headlineLarge,
+                  ),
+                  const SizedBox(height: compactGap),
+                  SegmentedButton<DashboardDateRange>(
+                    showSelectedIcon: false,
+                    segments: [
+                      for (final range in DashboardDateRange.values)
+                        ButtonSegment<DashboardDateRange>(
+                          value: range,
+                          label: Text(range.labelKey.tr()),
+                        ),
+                    ],
+                    selected: {selectedRange.value},
+                    onSelectionChanged: (selection) {
+                      if (selection.isNotEmpty) {
+                        selectedRange.value = selection.first;
+                      }
+                    },
+                  ),
+                ] else ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        selectedRange.value.labelKey.tr(),
+                        style: theme.textTheme.headlineLarge,
+                      ),
+                      SegmentedButton<DashboardDateRange>(
+                        showSelectedIcon: false,
+                        segments: [
+                          for (final range in DashboardDateRange.values)
+                            ButtonSegment<DashboardDateRange>(
+                              value: range,
+                              label: Text(range.labelKey.tr()),
+                            ),
+                        ],
+                        selected: {selectedRange.value},
+                        onSelectionChanged: (selection) {
+                          if (selection.isNotEmpty) {
+                            selectedRange.value = selection.first;
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: contentGap),
-                ChartsSection(metrics: snapshot.weeklyMetrics),
+                ChartsSection(
+                  days: snapshot.weeklyMetrics.daysForRange(
+                    selectedRange.value,
+                  ),
+                ),
                 const SizedBox(height: largeSectionGap),
                 Text(
                   'dashboard.recent_users'.tr(),
