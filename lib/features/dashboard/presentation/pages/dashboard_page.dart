@@ -46,6 +46,9 @@ class DashboardPage extends HookConsumerWidget {
     });
 
     final isCompact = MediaQuery.sizeOf(context).width < breakpointMobile;
+    final padding = isCompact
+        ? const EdgeInsets.all(pagePaddingMobile)
+        : const EdgeInsets.all(pagePadding);
 
     return Scaffold(
       appBar: AppBar(
@@ -107,7 +110,7 @@ class DashboardPage extends HookConsumerWidget {
         DashboardInitial() ||
         DashboardLoading() => const Center(child: CircularProgressIndicator()),
         DashboardFailure(:final messageKey) => Padding(
-          padding: const EdgeInsets.all(pagePadding),
+          padding: padding,
           child: DashboardErrorBanner(
             messageKey: messageKey,
             onRetry: ref.read(dashboardProvider.notifier).refresh,
@@ -115,33 +118,39 @@ class DashboardPage extends HookConsumerWidget {
         ),
         DashboardData(:final snapshot, :final updatingUserIds) =>
           SingleChildScrollView(
-            padding: const EdgeInsets.all(pagePadding),
+            padding: padding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SummaryCards(snapshot: snapshot),
-                const SizedBox(height: sectionGap),
+                SizedBox(height: isCompact ? contentGap : sectionGap),
                 if (isCompact) ...[
                   Text(
                     selectedRange.value.labelKey.tr(),
                     style: theme.textTheme.headlineLarge,
                   ),
                   const SizedBox(height: compactGap),
-                  SegmentedButton<DashboardDateRange>(
-                    showSelectedIcon: false,
-                    segments: [
-                      for (final range in DashboardDateRange.values)
-                        ButtonSegment<DashboardDateRange>(
-                          value: range,
-                          label: Text(range.labelKey.tr()),
-                        ),
-                    ],
-                    selected: {selectedRange.value},
-                    onSelectionChanged: (selection) {
-                      if (selection.isNotEmpty) {
-                        selectedRange.value = selection.first;
-                      }
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: SegmentedButton<DashboardDateRange>(
+                      showSelectedIcon: false,
+                      segments: [
+                        for (final range in DashboardDateRange.values)
+                          ButtonSegment<DashboardDateRange>(
+                            value: range,
+                            label: Text(
+                              range.labelKey.tr(),
+                              style: theme.textTheme.labelMedium,
+                            ),
+                          ),
+                      ],
+                      selected: {selectedRange.value},
+                      onSelectionChanged: (selection) {
+                        if (selection.isNotEmpty) {
+                          selectedRange.value = selection.first;
+                        }
+                      },
+                    ),
                   ),
                 ] else ...[
                   Row(
@@ -176,7 +185,7 @@ class DashboardPage extends HookConsumerWidget {
                     selectedRange.value,
                   ),
                 ),
-                const SizedBox(height: largeSectionGap),
+                SizedBox(height: isCompact ? sectionGap : largeSectionGap),
                 Text(
                   'dashboard.recent_users'.tr(),
                   style: theme.textTheme.headlineLarge,

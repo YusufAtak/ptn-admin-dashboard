@@ -21,19 +21,22 @@ class SummaryCards extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columns = constraints.maxWidth >= breakpointDesktop
+        final isDesktop = constraints.maxWidth >= breakpointDesktop;
+        final isTablet = constraints.maxWidth >= breakpointMobile;
+
+        final columns = isDesktop
             ? DASHBOARD_DESKTOP_COLUMN_COUNT
-            : constraints.maxWidth >= breakpointMobile
-            ? DASHBOARD_TABLET_COLUMN_COUNT
-            : DASHBOARD_MOBILE_COLUMN_COUNT;
+            : isTablet
+                ? DASHBOARD_TABLET_COLUMN_COUNT
+                : DASHBOARD_MOBILE_COLUMN_COUNT;
+
+        final gap = isTablet ? contentGap : mediumGap;
         final cardWidth =
-            (constraints.maxWidth -
-                ((columns - DASHBOARD_MOBILE_COLUMN_COUNT) * contentGap)) /
-            columns;
+            (constraints.maxWidth - ((columns - 1) * gap)) / columns;
 
         return Wrap(
-          spacing: contentGap,
-          runSpacing: contentGap,
+          spacing: gap,
+          runSpacing: gap,
           children: [
             _SummaryCard(
               titleKey: 'dashboard.total_users',
@@ -41,6 +44,7 @@ class SummaryCards extends StatelessWidget {
               icon: Icons.people,
               color: theme.colorScheme.primary,
               width: cardWidth,
+              isMobile: !isTablet,
             ),
             _SummaryCard(
               titleKey: 'dashboard.today_rides',
@@ -48,6 +52,7 @@ class SummaryCards extends StatelessWidget {
               icon: Icons.directions_bus,
               color: dashboardColors.success,
               width: cardWidth,
+              isMobile: !isTablet,
             ),
             _SummaryCard(
               titleKey: 'dashboard.total_balance',
@@ -55,6 +60,7 @@ class SummaryCards extends StatelessWidget {
               icon: Icons.account_balance_wallet,
               color: dashboardColors.balance,
               width: cardWidth,
+              isMobile: !isTablet,
             ),
             _SummaryCard(
               titleKey: 'dashboard.total_revenue',
@@ -62,6 +68,7 @@ class SummaryCards extends StatelessWidget {
               icon: Icons.payments,
               color: dashboardColors.revenue,
               width: cardWidth,
+              isMobile: !isTablet,
             ),
           ],
         );
@@ -76,6 +83,7 @@ class _SummaryCard extends StatelessWidget {
   final IconData icon;
   final Color color;
   final double width;
+  final bool isMobile;
 
   const _SummaryCard({
     required this.titleKey,
@@ -83,17 +91,23 @@ class _SummaryCard extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.width,
+    this.isMobile = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final padding = isMobile ? cardPaddingMobile : cardPadding;
+
     return SizedBox(
       width: width,
       child: Card(
         margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(cardRadius),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(cardPadding),
+          padding: EdgeInsets.all(padding),
           child: Row(
             children: [
               Container(
@@ -108,10 +122,25 @@ class _SummaryCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(titleKey.tr(), style: theme.textTheme.bodyMedium),
-                    const SizedBox(height: compactGap),
-                    Text(value, style: theme.textTheme.displayLarge),
+                    Text(
+                      titleKey.tr(),
+                      style: theme.textTheme.bodyMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: smallGap),
+                    Text(
+                      value,
+                      style: isMobile
+                          ? theme.textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            )
+                          : theme.textTheme.displayLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),

@@ -53,6 +53,14 @@ void main() {
         userTypeId: 'full-id',
         balance: 125,
       ),
+      AdminUserSummary(
+        id: '9876543210',
+        email: 'student@example.com',
+        displayName: 'Student User',
+        role: 'passenger',
+        userTypeId: 'student-id',
+        balance: 50,
+      ),
     ],
     userTypes: const [
       UserTypeOption(id: 'full-id', code: UserTypeCode.full),
@@ -61,7 +69,11 @@ void main() {
     ],
   );
 
-  Future<void> pumpDashboard(WidgetTester tester, Size size) async {
+  Future<void> pumpDashboard(
+    WidgetTester tester,
+    Size size, {
+    _FakeDashboardNotifier? notifier,
+  }) async {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -79,7 +91,7 @@ void main() {
           overrides: [
             authProvider.overrideWith(_FakeAuthNotifier.new),
             dashboardProvider.overrideWith(
-              () => _FakeDashboardNotifier(snapshot),
+              () => notifier ?? _FakeDashboardNotifier(snapshot),
             ),
           ],
           child: Consumer(
@@ -145,8 +157,51 @@ void main() {
       tester.view.physicalSize = const Size(390, 844);
       await tester.pumpAndSettle();
       expect(find.byTooltip('Live'), findsOneWidget);
-      expect(find.byType(DropdownButton<String>), findsOneWidget);
+      expect(find.byType(DropdownButton<String>), findsWidgets);
       expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'mobile-first user search and user cards work seamlessly on mobile size',
+    (tester) async {
+      await pumpDashboard(tester, const Size(390, 844));
+
+      // Both users rendered in mobile cards
+      expect(find.text('Test Passenger'), findsOneWidget);
+      expect(find.text('Student User'), findsOneWidget);
+
+      // Filter by 'Student'
+      final searchField = find.byType(TextField);
+      expect(searchField, findsOneWidget);
+
+      await tester.enterText(searchField, 'Student');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Student User'), findsOneWidget);
+      expect(find.text('Test Passenger'), findsNothing);
+
+      // Filter by non-existent query
+      await tester.enterText(searchField, 'NonExistentXYZ');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Kullanıcı bulunamadı.'), findsOneWidget);
+
+      // Clear search
+      await tester.tap(find.byIcon(Icons.clear));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Test Passenger'), findsOneWidget);
+      expect(find.text('Student User'), findsOneWidget);
+
+      // Scroll to and tap on User ID to copy
+      final copyFinder = find.byIcon(Icons.copy).first;
+      await tester.ensureVisible(copyFinder);
+      await tester.pumpAndSettle();
+      await tester.tap(copyFinder);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.text('Kullanıcı ID panoya kopyalandı.'), findsOneWidget);
     },
   );
 }
